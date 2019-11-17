@@ -1,0 +1,9 @@
+.character {
+    margin-bottom: 5%;
+}
+
+.character--name {
+    color: #3f51b5;
+    font-weight: bold;
+    font-size: 1.5em;
+}

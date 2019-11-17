@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import './App.css';
 import SearchInput from "./common/SearchInput";
 import Container from "@material-ui/core/Container";
 import Characters from "./Characters/Characters";

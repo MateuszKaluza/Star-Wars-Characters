@@ -18,5 +18,6 @@ export const getFilms = async (filmsUrls) => {
         return axios.get(filmUrl);
     });
 
-    return await Promise.all(filmPromises);
+    const films = await Promise.all(filmPromises);
+    return films.map(film => film.data);
 };

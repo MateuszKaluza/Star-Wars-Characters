@@ -1,35 +1,20 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import PropTypes from "prop-types";
+
 import Films from "../Films/Films";
+import Info from "./Info";
+
+import './Character.css';
 
 function Character(props) {
-    const {model} = props;
-
+    const {name, height, birth_year: birthYear, films} = props.model;
     return (
-        <Card>
+        <Card className="character">
             <CardContent>
-                <Typography>
-                    {model.name}
-                </Typography>
-                <List dense>
-                    <ListItem>
-                        <ListItemText >
-                            Birth Year: {model.birth_year}
-                        </ListItemText>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemText >
-                            Height: {model.height}cm
-                        </ListItemText>
-                    </ListItem>
-                </List>
-                <Films filmsUrls={model.films}/>
+                <Info name={name} height={height} birthYear={birthYear}/>
+                <Films filmsUrls={films}/>
             </CardContent>
         </Card>
     );

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import * as axios from "axios";
 import Character from "./Character";
+import {getCharacters} from "../utils";
 
 function Characters(props) {
     const {queryString} = props;
@@ -10,20 +10,25 @@ function Characters(props) {
     const [characters, setCharacters] = useState([]);
 
     const search = async () => {
+        if (!queryString) return;
+
+        setCharacters([]);
         toggleLoading(true);
-        const response = await axios(`https://swapi.co/api/people/?search=${queryString}`);
-        const characters = await response.data.results;
+
+        const url = `https://swapi.co/api/people/?search=${queryString}`;
+        const characters = await getCharacters(url);
+
         setCharacters(characters);
         toggleLoading(false);
     };
 
     useEffect(() => {
         search();
-    }, [queryString]);
+    }, [props.queryString]);
 
     return (
         <div>
-            {props.queryString && characters.map((character, index) => {
+            {queryString && characters.map((character, index) => {
                 return (
                     <Character model={character} key={index}/>
                 );

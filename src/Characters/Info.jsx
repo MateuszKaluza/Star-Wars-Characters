@@ -31,7 +31,9 @@ function Info(props) {
 }
 
 Info.propTypes = {
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    birthYear: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired
 };
 
 export default Info;

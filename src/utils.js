@@ -10,7 +10,7 @@ const makeRequestCreator = () => {
         }
 
         let characters = [];
-        let response = await axios.get(url, { cancelToken: source.token });
+        let response = await axios.get(url, {cancelToken: source.token});
         characters.push(...response.data.results);
 
         if (response.data.next) {
@@ -27,13 +27,13 @@ const makeRequestCreator = () => {
 const makeFilmRequest = () => {
     const cache = {};
 
-    return async (filmsUrls, sources) => {
+    return async (filmsUrls) => {
         const [filmsInCache, filmsNotInCache] = partition(filmsUrls, (url) => {
             return cache[url];
         });
 
-        const filmPromises = filmsNotInCache.map((filmUrl, index) => {
-            return axios.get(filmUrl, { cancelToken: sources[index].token });
+        const filmPromises = filmsNotInCache.map(filmUrl => {
+            return axios.get(filmUrl);
         });
 
         const cachedFilms = filmsInCache.map(film => cache[film]);

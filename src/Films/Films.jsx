@@ -4,7 +4,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
-import axios from 'axios';
+import PropTypes from 'prop-types';
 
 import {getFilms} from "../utils";
 import Film from "./Film";
@@ -20,7 +20,8 @@ function Films(props) {
 
     useEffect(() => {
         let mounted = false;
-        const fetchData = async () => {
+
+        const fetchFilms = async () => {
             try {
                 const filmsData = await getFilms(filmsUrls);
                 if (!mounted) {
@@ -29,7 +30,7 @@ function Films(props) {
                     setLoading(false);
                 }
 
-            } catch (e) {
+            } catch (error) {
                 if (!mounted) {
                     setError(true);
                     setLoading(false);
@@ -37,7 +38,8 @@ function Films(props) {
             }
         };
 
-        fetchData();
+        fetchFilms();
+
         return () => {
             mounted = true;
         };
@@ -64,8 +66,8 @@ function Films(props) {
     );
 }
 
-// Films.propTypes = {
-//     filmsUrls: PropTypes.arrayOf(PropTypes.string)
-// };
+Films.propTypes = {
+    filmsUrls: PropTypes.arrayOf(PropTypes.string)
+};
 
 export default Films;

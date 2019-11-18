@@ -10,5 +10,4 @@ describe('Error',  () => {
         assert.strictEqual(wrapper.text(), 'Something went wrong :(');
         assert.isTrue(wrapper.hasClass('error'));
     });
-
 });

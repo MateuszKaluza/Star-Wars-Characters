@@ -1,16 +1,22 @@
 import * as axios from "axios";
 import partition from 'lodash.partition';
 
-const makeRequestCreator = () => {
+const makeCharactersRequest = () => {
     const cache = {};
+    let token;
 
-    return async (url, source) => {
+    return async (url) => {
+        if(token) {
+            token.cancel();
+        }
+        token = new axios.CancelToken.source();
+
         if (cache[url]) {
             return cache[url];
         }
 
         let characters = [];
-        let response = await axios.get(url, {cancelToken: source.token});
+        let response = await axios.get(url, {cancelToken: token.token});
         characters.push(...response.data.results);
 
         if (response.data.next) {
@@ -38,7 +44,7 @@ const makeFilmRequest = () => {
 
         const cachedFilms = filmsInCache.map(film => cache[film]);
 
-        const films = await axios.all(filmPromises);
+        const films = await Promise.all(filmPromises);
         const newFilms = films
             .map(film => {
                 const filmData = film.data;
@@ -51,7 +57,7 @@ const makeFilmRequest = () => {
     }
 };
 
-export const getCharacters = makeRequestCreator();
+export const getCharacters = makeCharactersRequest();
 export const getFilms = makeFilmRequest();
 
 async function handlePagination(response) {

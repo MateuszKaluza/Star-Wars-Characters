@@ -10,6 +10,7 @@ import './Character.css';
 
 function Character(props) {
     const {name, height, birth_year: birthYear, films} = props.model;
+    
     return (
         <Card className="character">
             <CardContent>

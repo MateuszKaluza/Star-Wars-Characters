@@ -1,23 +1,69 @@
 import * as axios from "axios";
+import partition from 'lodash.partition';
 
-export const getCharacters = async (url) => {
-    const characters = [];
-    let response = await axios(url);
-//todo try catch
-    do {
-        response = await axios(url);
+const makeRequestCreator = () => {
+    const cache = {};
+
+    return async (url, source) => {
+        if (cache[url]) {
+            return cache[url];
+        }
+
+        let characters = [];
+        let response = await axios.get(url, { cancelToken: source.token });
         characters.push(...response.data.results);
-        url = response.data.next;
-    } while (response.data.next);
+
+        if (response.data.next) {
+            const restCharacters = await handlePagination(response);
+            characters.push(...restCharacters)
+        }
+
+        cache[url] = characters;
+
+        return characters;
+    }
+};
+
+const makeFilmRequest = () => {
+    const cache = {};
+
+    return async (filmsUrls, sources) => {
+        const [filmsInCache, filmsNotInCache] = partition(filmsUrls, (url) => {
+            return cache[url];
+        });
+
+        const filmPromises = filmsNotInCache.map((filmUrl, index) => {
+            return axios.get(filmUrl, { cancelToken: sources[index].token });
+        });
+
+        const cachedFilms = filmsInCache.map(film => cache[film]);
+
+        const films = await axios.all(filmPromises);
+        const newFilms = films
+            .map(film => {
+                const filmData = film.data;
+                cache[filmData.url] = filmData;
+
+                return filmData;
+            });
+
+        return (newFilms && cachedFilms.concat(newFilms)) || cachedFilms;
+    }
+};
+
+export const getCharacters = makeRequestCreator();
+export const getFilms = makeFilmRequest();
+
+async function handlePagination(response) {
+    const characters = [];
+    let nextUrl = response.data.next;
+
+    do {
+        response = await axios(nextUrl);
+        characters.push(...response.data.results);
+        nextUrl = response.data.next;
+    }
+    while (response.data.next);
 
     return characters;
-};
-
-export const getFilms = async (filmsUrls) => {
-    const filmPromises = filmsUrls.map(filmUrl => {
-        return axios.get(filmUrl);
-    });
-
-    const films = await Promise.all(filmPromises);
-    return films.map(film => film.data);
-};
+}

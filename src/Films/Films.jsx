@@ -22,14 +22,10 @@ function Films(props) {
         let mounted = false;
         const fetchData = async () => {
             try {
-                const filmsPromises = filmsUrls.map(filmUrl => {
-                    return axios.get(filmUrl);
-                });
-
-                const result = await axios.all(filmsPromises);
-                const filmsData = result.map(el => el.data);
+                const filmsData = await getFilms(filmsUrls);
                 if (!mounted) {
                     setFilms(filmsData);
+                    setError(false);
                     setLoading(false);
                 }
 
@@ -46,20 +42,6 @@ function Films(props) {
             mounted = true;
         };
 
-        // getFilms(filmsUrls)
-        //     .then((films) => {
-        //         setFilms(films);
-        //         setError(false);
-        //         setLoading(false);
-        //     })
-        //     .catch((error) => {
-        //         setError(true);
-        //         setLoading(false);
-        //         console.log(error);
-        //     });
-
-        // setFilms([{title: 'dupa', release_date: '324'},])
-        // setLoading(false);
     }, [filmsUrls]);
 
     return (

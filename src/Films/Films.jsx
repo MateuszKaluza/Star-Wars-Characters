@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import LinearProgress from '@material-ui/core/LinearProgress';
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -6,45 +6,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from 'prop-types';
 
-import {getFilms} from "../utils";
+import useFetchFilms from "../hooks/useFetchFilms";
 import Film from "./Film";
 import Error from "../common/Error";
 
 
 function Films(props) {
     const {filmsUrls} = props;
-
-    const [films, setFilms] = useState([]);
-    const [hasError, setError] = useState(false);
-    const [isLoading, setLoading] = useState(true);
-
-    useEffect(() => {
-        let mounted = false;
-
-        const fetchFilms = async () => {
-            try {
-                const filmsData = await getFilms(filmsUrls);
-                if (!mounted) {
-                    setFilms(filmsData);
-                    setError(false);
-                    setLoading(false);
-                }
-
-            } catch (error) {
-                if (!mounted) {
-                    setError(true);
-                    setLoading(false);
-                }
-            }
-        };
-
-        fetchFilms();
-
-        return () => {
-            mounted = true;
-        };
-
-    }, [filmsUrls]);
+    const {films, hasError, isLoading} = useFetchFilms(filmsUrls);
 
     return (
         <div>
@@ -56,11 +25,12 @@ function Films(props) {
 
                 <ListItem>
                     <ListItemText>
-                        {films.map((film, index) => {
+                        {films && films.map((film, index) => {
                             return <Film film={film} key={index}/>
                         })}
                     </ListItemText>
                 </ListItem>
+
             </List>
         </div>
     );

@@ -3,7 +3,6 @@ import SearchInput from './SearchInput';
 import {shallow} from 'enzyme';
 import sinon from 'sinon';
 import {assert} from "chai";
-import debounce from 'lodash.debounce';
 
 jest.mock('lodash.debounce', () => jest.fn(fn => fn));
 

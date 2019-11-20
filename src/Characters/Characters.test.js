@@ -3,7 +3,6 @@ import Characters from "./Characters";
 import useFetchCharacters from '../hooks/useFetchCharacters';
 import {shallow} from "enzyme";
 
-//todo clean up
 jest.mock('../hooks/useFetchCharacters');
 
 describe('Characters', () => {

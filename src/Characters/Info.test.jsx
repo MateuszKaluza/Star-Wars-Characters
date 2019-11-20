@@ -8,7 +8,7 @@ describe('Info',  ()=> {
         const name = 'Yoda';
         const wrapper = shallow(<Info name={name} birthYear='' height=''/>);
 
-        assert.strictEqual(wrapper.find('div.character--name').text(), name);
+        assert.strictEqual(wrapper.find('div.character__name').text(), name);
     });
 
     it('should display character birth year', () => {

@@ -11,7 +11,7 @@ function Info(props) {
 
     return (
         <>
-            <div className="character--name">
+            <div className="character__name">
                 {name}
             </div>
             <List dense>

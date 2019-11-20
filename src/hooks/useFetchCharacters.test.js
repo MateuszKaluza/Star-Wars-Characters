@@ -35,6 +35,18 @@ describe('useFetchCharacters', () => {
         expect(result.current.isLoading).toBe(false);
     });
 
+    it('should not fetch if empty queryString ', async () => {
+        const fakeQueryString = '';
+
+        const {result} = renderHook(() => useFetchCharacters(fakeQueryString));
+
+        expect(utils.getCharacters).not.toHaveBeenCalled();
+
+        expect(result.current.characters).toStrictEqual([]);
+        expect(result.current.hasError).toBe(false);
+        expect(result.current.isLoading).toBe(false);
+    });
+
     it('should inform about error', async () => {
         const fakeQueryString = 'fakeQueryString';
 

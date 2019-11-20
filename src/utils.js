@@ -1,7 +1,7 @@
 import * as axios from "axios";
 import partition from 'lodash.partition';
 
-export const makeCharactersRequest = () => {
+export const createCharactersRequest = () => {
     const cache = {};
     let token;
 
@@ -30,7 +30,7 @@ export const makeCharactersRequest = () => {
     }
 };
 
-const makeFilmRequest = () => {
+const createFilmRequest = () => {
     const cache = {};
 
     return async (filmsUrls) => {
@@ -57,8 +57,8 @@ const makeFilmRequest = () => {
     }
 };
 
-export const getCharacters = makeCharactersRequest();
-export const getFilms = makeFilmRequest();
+export const getCharacters = createCharactersRequest();
+export const getFilms = createFilmRequest();
 
 async function handlePagination(response) {
     const characters = [];

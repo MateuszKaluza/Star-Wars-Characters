@@ -1,7 +1,6 @@
 import React from 'react';
 import Film from './Film';
 import {shallow} from 'enzyme';
-import {assert} from "chai";
 
 describe('Film', () => {
     it('should display passed props', () => {
@@ -11,6 +10,6 @@ describe('Film', () => {
 
         const wrapper = shallow(<Film film={film}/>);
 
-        assert.strictEqual(wrapper.text(), `${title} - ${release_date}`);
+        expect(wrapper.text()).toStrictEqual(`${title} - ${release_date}`)
     });
 });

@@ -35,7 +35,7 @@ describe('useFetchCharacters', () => {
         expect(result.current.isLoading).toBe(false);
     });
 
-    it('should not fetch if empty queryString ', async () => {
+    it('should not fetch if empty queryString', async () => {
         const fakeQueryString = '';
 
         const {result} = renderHook(() => useFetchCharacters(fakeQueryString));

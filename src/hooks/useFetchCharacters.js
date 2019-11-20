@@ -24,9 +24,9 @@ const useFetchCharacters = (queryString) => {
             const url = `${PEOPLE_SEARCH}${queryString}`;
 
             try {
-                const characterData = await getCharacters(url);
+                const charactersData = await getCharacters(url);
                 if (!mounted) {
-                    setCharacters(characterData);
+                    setCharacters(charactersData);
                     setError(false);
                     setLoading(false);
                 }

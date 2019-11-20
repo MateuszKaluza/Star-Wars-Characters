@@ -1,4 +1,4 @@
-import {getFilms, makeCharactersRequest} from "./utils";
+import {getFilms, createCharactersRequest} from "./utils";
 import axios from 'axios';
 
 jest.mock('axios');
@@ -58,7 +58,7 @@ describe('getCharacters', () => {
     let getCharacters;
 
     beforeEach(() => {
-        getCharacters = makeCharactersRequest();
+        getCharacters = createCharactersRequest();
     });
 
     afterEach(() => {
